@@ -8,7 +8,7 @@ import { DeleteThread } from "#bot/webhook/delete_thread";
 import { SendCommentEmbed } from "#bot/webhook/send_comment_embed";
 import { LoggingMiddleware } from "#bot/lib/middleware/logging_middleware";
 import { listRepos, unwatch, watch } from "#bot/commands/index"
-import { ExceptionMiddleware } from "#bot/lib/middleware/exception_middleware";
+import { asyncHandler, ExceptionMiddleware } from "#bot/lib/middleware/exception_middleware";
 
 const app = express();
 const client = new Client({
@@ -22,7 +22,7 @@ client.login(process.env.BOT_TOKEN);
 app.use(express.json());
 app.use(LoggingMiddleware);
 
-app.post("/github-webhook", async (req, res) => {
+app.post("/github-webhook", asyncHandler(async (req: express.Request, res: express.Response) => {
     const event = req.headers["x-github-event"];
     const payload = req.body;
 
@@ -34,7 +34,7 @@ app.post("/github-webhook", async (req, res) => {
         await SendCommentEmbed(payload, client);
 
     res.status(200).send("Webhook received");
-});
+}));
 
 client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return;

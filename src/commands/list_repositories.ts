@@ -1,4 +1,3 @@
-// src/commands/list-repos.ts
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
 import { listRepositories } from "#bot/lib/db";
 

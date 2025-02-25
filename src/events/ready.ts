@@ -1,4 +1,3 @@
-// src/events/ready.ts
 import { Client, REST, Routes } from "discord.js";
 import { watch, unwatch, listRepos } from "#bot/commands/index";
 

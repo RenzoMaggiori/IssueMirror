@@ -1,4 +1,3 @@
-// src/commands/watch.ts
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
 import { addRepository } from "#bot/lib/db";
 
