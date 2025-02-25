@@ -26,7 +26,6 @@ app.post("/github-webhook", async (req, res) => {
 
     if (event === "issues" && payload.action === "opened")
         await CreateThread(payload, client);
-
     if (event === "issues" && (payload.action === "closed" || payload.action === "deleted"))
         await DeleteThread(payload, client);
     if (event === "issue_comment" && payload.action === "created")
