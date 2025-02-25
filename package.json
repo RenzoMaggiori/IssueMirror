@@ -1,0 +1,37 @@
+{
+  "name": "@issueManager",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "main": "dist/src/index.js",
+  "scripts": {
+    "dev": "pnpm with-env tsx watch src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "with-env": "dotenv -e ./.env --",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7",
+    "dotenv-cli": "^7.4.4",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.5",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "dotenv-cli": "^7.4.2",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [],
+  "author": "RenzoMaggiori",
+  "license": "ISC",
+  "packageManager": "pnpm@9.13.2+sha512.88c9c3864450350e65a33587ab801acf946d7c814ed1134da4a924f6df5a2120fd36b46aab68f7cd1d413149112d53c7db3a4136624cfd00ff1846a0c6cef48a"
+}
