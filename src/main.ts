@@ -7,6 +7,8 @@ import { CreateThread } from "#bot/webhook/create_thread";
 import { DeleteThread } from "#bot/webhook/delete_thread";
 import { SendCommentEmbed } from "#bot/webhook/send_comment_embed";
 import { LoggingMiddleware } from "#bot/lib/middleware/logging_middleware";
+import { listRepos, unwatch, watch } from "#bot/commands/index"
+import { ExceptionMiddleware } from "#bot/lib/middleware/exception_middleware";
 
 const app = express();
 const client = new Client({
@@ -34,8 +36,25 @@ app.post("/github-webhook", async (req, res) => {
     res.status(200).send("Webhook received");
 });
 
+client.on("interactionCreate", async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
+
+    switch (interaction.commandName) {
+        case "watch":
+            await watch.execute(interaction);
+            break;
+        case "unwatch":
+            await unwatch.execute(interaction);
+            break;
+        case "list-repos":
+            await listRepos.execute(interaction);
+            break;
+    }
+});
 
 client.on("ready", () => clientReadyEvent(client));
+
+app.use(ExceptionMiddleware);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);

@@ -1,5 +1,8 @@
 export type GitHubIssuePayload = {
     action: string;
+    repository: {
+        full_name: string;
+    },
     issue: {
         number: number;
         title: string;
@@ -42,3 +45,8 @@ export type GitHubIssueCommentPayload = {
         };
     };
 };
+
+export type Repository = {
+    github_repo_name: string;
+    discord_guild_id: string;
+}

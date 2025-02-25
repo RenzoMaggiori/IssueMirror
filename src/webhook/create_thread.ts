@@ -1,7 +1,8 @@
-import { ChannelType, Client, EmbedBuilder, ThreadChannel } from "discord.js";
+import { ChannelType, Client, EmbedBuilder, ForumChannel, ThreadChannel } from "discord.js";
 
 import { GitHubIssuePayload } from "#bot/lib/types";
 import { getRandomColor } from "#bot/lib/random_color";
+import { listRepositories } from "#bot/lib/db";
 
 async function PinEmbedMessage(thread: ThreadChannel) {
     const messages = await thread.messages.fetch({ limit: 1 });
@@ -38,21 +39,26 @@ export async function CreateThread(
     payload: GitHubIssuePayload,
     client: Client,
 ) {
-    const issue = payload.issue;
-    const forumChannel = await client.channels.fetch(process.env.FORUM_CHANNEL_ID!);
-    if (!forumChannel) throw new Error("Failed to fetch channel.");
+    const repoName = payload.repository.full_name;
+    const servers = await listRepositories(repoName);
 
-    if (forumChannel.type === ChannelType.GuildText || forumChannel.type === ChannelType.GuildForum) {
-        const embed = createEmbed(issue);
+    for (const server of servers) {
+        const guild = client.guilds.cache.get(server.discord_guild_id);
+        if (!guild) continue;
 
+        const forumChannel = guild.channels.cache.find(
+            (channel) => channel.type === ChannelType.GuildForum && channel.name === "github-issues",
+        ) as ForumChannel | undefined;
+
+        if (!forumChannel) throw new Error("Channel not found.");
+
+        const embed = createEmbed(payload.issue);
         const thread = await forumChannel.threads.create({
-            name: `Issue: ${issue.title}`,
+            name: `Issue: ${payload.issue.title}`,
             message: {
-                embeds: [embed],
+                embeds: [embed]
             },
         });
-
         await PinEmbedMessage(thread);
-
-    } else throw new Error("Channel not found.");
+    }
 }
