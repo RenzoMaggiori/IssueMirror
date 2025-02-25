@@ -49,4 +49,5 @@ export type GitHubIssueCommentPayload = {
 export type Repository = {
     github_repo_name: string;
     discord_guild_id: string;
+    channel_id: string;
 }

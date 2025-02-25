@@ -47,7 +47,7 @@ export async function CreateThread(
         if (!guild) continue;
 
         const forumChannel = guild.channels.cache.find(
-            (channel) => channel.type === ChannelType.GuildForum && channel.name === "github-issues",
+            (channel) => channel.type === ChannelType.GuildForum && channel.id === server.channel_id,
         ) as ForumChannel | undefined;
 
         if (!forumChannel) throw new Error("Channel not found.");

@@ -14,13 +14,13 @@ const db = new Pool({
 });
 
 // Add a repository to watch
-export async function addRepository(guildId: string, repoName: string) {
+export async function addRepository(guildId: string, repoName: string, channel_id: string) {
   const query = `
-    INSERT INTO server_repositories (discord_guild_id, github_repo_name)
-    VALUES ($1, $2)
-    ON CONFLICT (discord_guild_id, github_repo_name) DO NOTHING;
+    INSERT INTO server_repositories (discord_guild_id, github_repo_name, channel_id)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (discord_guild_id, github_repo_name, channel_id) DO NOTHING;
   `;
-  await db.query(query, [guildId, repoName]);
+  await db.query(query, [guildId, repoName, channel_id]);
 }
 
 // Remove a repository from being watched
@@ -35,7 +35,7 @@ export async function removeRepository(guildId: string, repoName: string) {
 // List all watched repositories for a server
 export async function listRepositories(github_repo_name: string): Promise<Repository[]> {
   const query = `
-    SELECT github_repo_name, discord_guild_id
+    SELECT github_repo_name, discord_guild_id, channel_id
     FROM server_repositories
     WHERE github_repo_name = $1;
   `;
