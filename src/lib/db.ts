@@ -1,52 +1,65 @@
-import { Pool } from "pg";
-import dotenv from "dotenv";
-import { Repository } from "./types";
+import { createClient } from "@supabase/supabase-js";
 
-dotenv.config();
+import { Repository } from "#bot/lib/types";
 
-const db = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_KEY!
+);
 
 export async function addRepository(guildId: string, repoName: string, channel_id: string) {
-  const query = `
-    INSERT INTO server_repositories (discord_guild_id, github_repo_name, channel_id)
-    VALUES ($1, $2, $3)
-    ON CONFLICT (discord_guild_id, github_repo_name, channel_id) DO NOTHING;
-  `;
-  await db.query(query, [guildId, repoName, channel_id]);
+  const { data, error } = await supabase
+    .from("server_repositories")
+    .upsert(
+      { discord_guild_id: guildId, github_repo_name: repoName, channel_id },
+      { onConflict: "discord_guild_id,github_repo_name,channel_id" }
+    );
+
+  if (error) {
+    console.error("Error adding repository:", error);
+    throw error;
+  }
+  return data;
 }
 
 export async function removeRepository(guildId: string, repoName: string) {
-  const query = `
-    DELETE FROM server_repositories
-    WHERE discord_guild_id = $1 AND github_repo_name = $2;
-  `;
-  await db.query(query, [guildId, repoName]);
+  const { data, error } = await supabase
+    .from("server_repositories")
+    .delete()
+    .eq("discord_guild_id", guildId)
+    .eq("github_repo_name", repoName);
+
+  if (error) {
+    console.error("Error removing repository:", error);
+    throw error;
+  }
+  return data;
 }
 
 export async function getReposByName(github_repo_name: string): Promise<Repository[]> {
-  const query = `
-    SELECT github_repo_name, discord_guild_id, channel_id
-    FROM server_repositories
-    WHERE github_repo_name = $1;
-  `;
-  const result = await db.query(query, [github_repo_name]);
-  return result.rows;
+  const { data, error } = await supabase
+    .from("server_repositories")
+    .select("*")
+    .eq("github_repo_name", github_repo_name);
+
+  if (error) {
+    console.error("Error fetching repositories by name:", error);
+    throw error;
+  }
+  return data as Repository[];
 }
 
 export async function getReposByGuildId(guild_id: string): Promise<Repository[]> {
-  const query = `
-    SELECT github_repo_name, discord_guild_id, channel_id
-    FROM server_repositories
-    WHERE discord_guild_id = $1;
-  `;
-  const result = await db.query(query, [guild_id]);
-  return result.rows;
+  const { data, error } = await supabase
+    .from("server_repositories")
+    .select("*")
+    .eq("discord_guild_id", guild_id);
+
+  if (error) {
+    console.error("Error fetching repositories by guild ID:", error);
+    throw error;
+  }
+  return data as Repository[];
 }
 
-export default db;
+export default supabase;
