@@ -9,6 +9,7 @@ import { SendCommentEmbed } from "#bot/webhook/send_comment_embed";
 import { LoggingMiddleware } from "#bot/lib/middleware/logging_middleware";
 import { listRepos, unwatch, watch, help, usage } from "#bot/commands/index"
 import { asyncHandler, ExceptionMiddleware } from "#bot/lib/middleware/exception_middleware";
+import { interactionCreated } from "./events/interaction";
 
 const app = express();
 const client = new Client({
@@ -36,27 +37,7 @@ app.post("/github-webhook", asyncHandler(async (req: express.Request, res: expre
     res.status(200).send("Webhook received");
 }));
 
-client.on("interactionCreate", async (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
-
-    switch (interaction.commandName) {
-        case "watch":
-            await watch.execute(interaction);
-            break;
-        case "unwatch":
-            await unwatch.execute(interaction);
-            break;
-        case "list-repos":
-            await listRepos.execute(interaction);
-            break;
-        case "help":
-            await help.execute(interaction);
-            break;
-        case "usage":
-            await usage.execute(interaction);
-            break;
-    }
-});
+client.on("interactionCreate", async (interaction) => await interactionCreated(interaction));
 
 client.on("ready", () => clientReadyEvent(client));
 
