@@ -11,3 +11,7 @@
   - [List-repos](user-manual/commands/list-repos.md)
   - [Usage](user-manual/commands/usage.md)
   - [Help](user-manual/commands/help.md)
+
+## Legal
+- [Terms of Service](legal/terms-of-service.md)
+- [Privacy Policy](legal/privacy-policy.md)
