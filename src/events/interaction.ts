@@ -1,5 +1,6 @@
-import { help, listRepos, unwatch, usage, watch } from "#bot/commands/index";
 import { CacheType, ChatInputCommandInteraction, Interaction } from "discord.js";
+
+import { help, listRepos, unwatch, usage, watch } from "#bot/commands/index";
 
 const commandHandlers: { [key: string]: (interaction: ChatInputCommandInteraction) => Promise<void> } = {
     "watch": watch.execute,

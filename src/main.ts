@@ -7,9 +7,8 @@ import { CreateThread } from "#bot/webhook/create_thread";
 import { DeleteThread } from "#bot/webhook/delete_thread";
 import { SendCommentEmbed } from "#bot/webhook/send_comment_embed";
 import { LoggingMiddleware } from "#bot/lib/middleware/logging_middleware";
-import { listRepos, unwatch, watch, help, usage } from "#bot/commands/index"
 import { asyncHandler, ExceptionMiddleware } from "#bot/lib/middleware/exception_middleware";
-import { interactionCreated } from "./events/interaction";
+import { interactionCreated } from "#bot/events/interaction";
 
 const app = express();
 const client = new Client({

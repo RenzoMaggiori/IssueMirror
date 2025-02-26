@@ -1,6 +1,7 @@
+import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+
 import { createEmbed } from "#bot/lib/create_embed";
 import { getRandomColor } from "#bot/lib/random_color";
-import { CommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 const data = new SlashCommandBuilder()
     .setName("usage")

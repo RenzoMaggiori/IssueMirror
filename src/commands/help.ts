@@ -1,6 +1,7 @@
+import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
+
 import { createEmbed } from "#bot/lib/create_embed";
 import { getRandomColor } from "#bot/lib/random_color";
-import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 
 const data = new SlashCommandBuilder()
     .setName("help")

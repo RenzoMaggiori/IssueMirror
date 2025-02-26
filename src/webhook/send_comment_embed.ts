@@ -1,4 +1,5 @@
 import { Client, ChannelType, EmbedBuilder, TextChannel } from "discord.js";
+
 import { GitHubIssueCommentPayload } from "#bot/lib/types";
 import { getRandomColor } from "#bot/lib/random_color";
 

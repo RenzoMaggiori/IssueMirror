@@ -1,5 +1,6 @@
-import { EmbedType } from "#bot/lib/types";
 import { EmbedBuilder } from "discord.js";
+
+import { EmbedType } from "#bot/lib/types";
 
 export function createEmbed(embedInfo: EmbedType): EmbedBuilder {
   const embed = new EmbedBuilder();

@@ -1,4 +1,5 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js";
+
 import { removeRepository } from "#bot/lib/db";
 
 const data = new SlashCommandBuilder()

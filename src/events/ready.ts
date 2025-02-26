@@ -1,4 +1,5 @@
 import { Client, REST, Routes } from "discord.js";
+
 import { watch, unwatch, listRepos, help, usage } from "#bot/commands/index";
 
 export async function clientReadyEvent(client: Client) {

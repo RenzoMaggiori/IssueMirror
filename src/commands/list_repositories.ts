@@ -1,4 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js";
+
 import { getReposByGuildId } from "#bot/lib/db";
 
 const data = new SlashCommandBuilder()
