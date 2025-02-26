@@ -34,6 +34,12 @@ const commandsUsage = [
         description: "List all watched repositories for this server.",
         example: "\`/list-repos\`"
     },
+    {
+        name: "usage",
+        usage: "\`/usage\`",
+        description: "A step-by-step guide to setting up Issue Mirror with GitHub webhooks.",
+        example: "\`/usage\`"
+    },
 ]
 
 async function execute(interaction: ChatInputCommandInteraction) {
@@ -41,8 +47,10 @@ async function execute(interaction: ChatInputCommandInteraction) {
 
     if (!commandName) {
         const embed = new EmbedBuilder()
+            .setTimestamp()
             .setColor(getRandomColor())
             .setTitle("Available Commands")
+            .setFooter({ text: "Syntax: <required> [optional]" })
             .setDescription("For more detailed help on a command use: `/help [command]`");
 
         const commandList = commandsUsage.map((c) => `- **${c.name}** - ${c.description}`).join("\n");
@@ -61,19 +69,20 @@ async function execute(interaction: ChatInputCommandInteraction) {
     }
 
     const embed = new EmbedBuilder()
-    .setColor(getRandomColor())
-    .setTitle(`Command ${commandName}`)
-    .setDescription(command.description)
-    .setFooter({ text: "Syntax: <required> [optional]" })
-    .setFields([
-        {name: "Usage", value: command.usage},
-    ]);
+        .setTimestamp()
+        .setColor(getRandomColor())
+        .setTitle(`Command ${commandName}`)
+        .setDescription(command.description)
+        .setFooter({ text: "Syntax: <required> [optional]" })
+        .setFields([
+            { name: "Usage", value: command.usage },
+        ]);
 
     if (command.options) {
         const params = command.options.map((o) => `- **${o.name}**: ${o.description}`).join("\n");
-        embed.addFields({name: "Parameters", value: params});
+        embed.addFields({ name: "Parameters", value: params });
     }
-    embed.addFields({name: "Example", value: command.example!});
+    embed.addFields({ name: "Example", value: command.example! });
 
     await interaction.reply({ embeds: [embed] });
 }

@@ -1,10 +1,10 @@
 import { Client, REST, Routes } from "discord.js";
-import { watch, unwatch, listRepos, help } from "#bot/commands/index";
+import { watch, unwatch, listRepos, help, usage } from "#bot/commands/index";
 
 export async function clientReadyEvent(client: Client) {
   const rest = new REST().setToken(process.env.BOT_TOKEN!);
 
-  const commands = [watch.data, unwatch.data, listRepos.data, help.data];
+  const commands = [watch.data, unwatch.data, listRepos.data, help.data, usage.data];
 
   try {
     console.log("Registering slash commands...");
