@@ -1,20 +1,29 @@
 import { ChannelType, Client, TextChannel } from "discord.js";
 
-export async function DeleteThread(payload: any, client: Client) {
+import { getReposByName } from "#bot/lib/db";
+import { GitHubIssuePayload } from "#bot/lib/types";
+
+export async function DeleteThread(payload: GitHubIssuePayload, client: Client) {
     const issue = payload.issue;
+    const repoName = payload.repository.full_name;
     const issueTitle = issue.title;
 
-    const channelId = process.env.FORUM_CHANNEL_ID!;
-    const channel = await client.channels.fetch(channelId) as TextChannel;
+    const repos = await getReposByName(repoName);
+    if (repos.length === 0) throw new Error(`No repository found for ${repoName}`);
+    for (const repo of repos) {
+        const channelId = repo.channel_id;
 
-    if (!channel) throw new Error("Channel not found");
-    if (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildForum) {
-        const threadName = `Issue: ${issueTitle}`;
-        const thread = channel.threads.cache.find((t) => t.name === threadName);
-
-        if (!thread) throw new Error("Thread not found.");
-        const deletedThread = await thread.delete('Issue closed or deleted');
-
-        if (!deletedThread) throw new Error("Failed to delete thread.");
+        if (!channelId)
+            continue;
+        const channel = await client.channels.fetch(channelId) as TextChannel;
+        if (!channel)
+            continue;
+        if (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildForum) {
+            const thread = channel.threads.cache.find((t) => t.name === `Issue: ${issueTitle}`);
+            if (!thread)
+                continue;
+            const deletedThread = await thread.delete('Issue closed or deleted');
+            if (!deletedThread) throw new Error("Failed to delete thread.");
+        }
     }
 }

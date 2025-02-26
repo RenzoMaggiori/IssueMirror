@@ -15,7 +15,7 @@ Issue Mirror is a Discord bot designed to mirror GitHub issues into Discord chan
 
 2. **Add a New Webhook**:
    - Click **Add webhook**.
-   - In the **Payload URL**, enter the URL https://IssueMirror.com/github-webhook where the bot will receive webhook notifications.
+   - In the **Payload URL**, enter the URL https://issuemirror.onrender.com/github-webhook where the bot will receive webhook notifications.
    - Set **Content type** to **application/json**.
    - Choose the events **Issues**, **Issue Comments** and **Sub Issues**.
    - Click **Add Webhook**.
