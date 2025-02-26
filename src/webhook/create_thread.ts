@@ -2,7 +2,7 @@ import { ChannelType, Client, EmbedBuilder, ForumChannel, ThreadChannel } from "
 
 import { GitHubIssuePayload } from "#bot/lib/types";
 import { getRandomColor } from "#bot/lib/random_color";
-import { listRepositories } from "#bot/lib/db";
+import { getReposByName } from "#bot/lib/db";
 
 async function PinEmbedMessage(thread: ThreadChannel) {
     const messages = await thread.messages.fetch({ limit: 1 });
@@ -40,7 +40,7 @@ export async function CreateThread(
     client: Client,
 ) {
     const repoName = payload.repository.full_name;
-    const servers = await listRepositories(repoName);
+    const servers = await getReposByName(repoName);
 
     for (const server of servers) {
         const guild = client.guilds.cache.get(server.discord_guild_id);

@@ -29,7 +29,7 @@ export async function removeRepository(guildId: string, repoName: string) {
   await db.query(query, [guildId, repoName]);
 }
 
-export async function listRepositories(github_repo_name: string): Promise<Repository[]> {
+export async function getReposByName(github_repo_name: string): Promise<Repository[]> {
   const query = `
     SELECT github_repo_name, discord_guild_id, channel_id
     FROM server_repositories
@@ -39,5 +39,14 @@ export async function listRepositories(github_repo_name: string): Promise<Reposi
   return result.rows;
 }
 
+export async function getReposByGuildId(guild_id: string): Promise<Repository[]> {
+  const query = `
+    SELECT github_repo_name, discord_guild_id, channel_id
+    FROM server_repositories
+    WHERE discord_guild_id = $1;
+  `;
+  const result = await db.query(query, [guild_id]);
+  return result.rows;
+}
 
 export default db;
