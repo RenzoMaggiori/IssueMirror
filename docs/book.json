@@ -1,0 +1,10 @@
+{
+    "title": "Issue Mirror HandBook",
+    "description": "Issue Mirror setup, usage and documentation",
+    "plugins": [
+      "code",
+      "search",
+      "hints",
+      "copy-code-button"
+    ]
+  }
