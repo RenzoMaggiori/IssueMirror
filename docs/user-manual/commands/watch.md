@@ -27,3 +27,5 @@ The `/watch` command is used to start mirroring GitHub issues into a specified D
 
 - **Real-time Updates**: Stay informed about new issues and updates in real-time.
 - **Streamlined Workflow**: Manage GitHub issues directly from your Discord server.
+
+This section explains how to use the `/watch` command, its syntax, and how it integrates with GitHub webhooks to mirror issues into Discord.
