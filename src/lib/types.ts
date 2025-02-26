@@ -1,3 +1,5 @@
+import { APIEmbedField, ColorResolvable, EmbedAuthorOptions, EmbedFooterOptions } from "discord.js";
+
 export type GitHubIssuePayload = {
     action: string;
     repository: {
@@ -51,3 +53,15 @@ export type Repository = {
     discord_guild_id: string;
     channel_id: string;
 }
+
+export type EmbedType = {
+    title?: string;
+    description?: string;
+    thumbnail?: string;
+    color?: ColorResolvable;
+    footer?: EmbedFooterOptions;
+    timestamp?: Date | number;
+    author?: EmbedAuthorOptions;
+    img?: string;
+    fields?: APIEmbedField[];
+};

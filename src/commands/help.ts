@@ -1,5 +1,6 @@
+import { createEmbed } from "#bot/lib/create_embed";
 import { getRandomColor } from "#bot/lib/random_color";
-import { SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction } from "discord.js";
 
 const data = new SlashCommandBuilder()
     .setName("help")
@@ -40,18 +41,19 @@ const commandsUsage = [
         description: "A step-by-step guide to setting up Issue Mirror with GitHub webhooks.",
         example: "\`/usage\`"
     },
-]
+];
 
 async function execute(interaction: ChatInputCommandInteraction) {
     const commandName = interaction.options.getString("command");
 
     if (!commandName) {
-        const embed = new EmbedBuilder()
-            .setTimestamp()
-            .setColor(getRandomColor())
-            .setTitle("Available Commands")
-            .setFooter({ text: "Syntax: <required> [optional]" })
-            .setDescription("For more detailed help on a command use: `/help [command]`");
+        const embed = createEmbed({
+            timestamp: undefined,
+            color: getRandomColor(),
+            title: "Available Commands",
+            description: "For more detailed help on a command use: `/help [command]`",
+            footer: {text: "Syntax: <required> [optional]"}
+        })
 
         const commandList = commandsUsage.map((c) => `- **${c.name}** - ${c.description}`).join("\n");
         embed.addFields({
@@ -68,15 +70,14 @@ async function execute(interaction: ChatInputCommandInteraction) {
         return;
     }
 
-    const embed = new EmbedBuilder()
-        .setTimestamp()
-        .setColor(getRandomColor())
-        .setTitle(`Command ${commandName}`)
-        .setDescription(command.description)
-        .setFooter({ text: "Syntax: <required> [optional]" })
-        .setFields([
-            { name: "Usage", value: command.usage },
-        ]);
+    const embed = createEmbed({
+        timestamp: undefined,
+        color: getRandomColor(),
+        title: `Command ${commandName}`,
+        description: command.description,
+        footer: { text: "Syntax: <required> [optional]" },
+        fields: [{ name: "Usage", value: command.usage }]
+    });
 
     if (command.options) {
         const params = command.options.map((o) => `- **${o.name}**: ${o.description}`).join("\n");
