@@ -16,7 +16,7 @@ async function execute(interaction: CommandInteraction) {
         fields: [
             {
                 name: "Step 1: Set Up GitHub Webhook",
-                value: `1. Navigate to your GitHub repository's **Settings** > **Webhooks**.\n2. Click **Add webhook** and paste test/github-webhook URL on \`Payload URL\`.\n3. Set **Content type** to **application/json** and choose the events **Issues**, **Issue comments** and **Sub issues**.`,
+                value: `1. Navigate to your GitHub repository's **Settings** > **Webhooks**.\n2. Click **Add webhook** and paste https://issuemirror.onrender.com/github-webhook URL on \`Payload URL\`.\n3. Set **Content type** to **application/json** and choose the events **Issues**, **Issue comments** and **Sub issues**.`,
                 inline: false
             },
             {
