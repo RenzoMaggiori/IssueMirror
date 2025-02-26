@@ -11,8 +11,7 @@ The `/watch` command is used to start mirroring GitHub issues into a specified D
 - **repository_name**: The name of the GitHub repository you want to mirror (e.g., `owner/repo`).
 - **channel_id**: The ID of the Discord channel where issues will be mirrored.
 
-> [!NOTE]
-> The `channel_id` must be from a forum type channel.
+{% hint style='info' %} The `channel_id` must be from a forum type channel. {% endhint %}
 
 ### Example
 
