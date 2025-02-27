@@ -3,7 +3,7 @@
 Issue Mirror is a Discord bot designed to mirror GitHub issues into Discord channels, enhancing collaboration and issue tracking across platforms. Here's a step-by-step guide to get you started:
 
 ## Step 1: Invite the Bot
-   - Invite the bot to your discord server with by clicking [here](https://discord.com/oauth2/authorize?client_id=1343952118842916926&permissions=8&integration_type=0&scope=bot+applications.commands).
+   - Invite the bot to your discord server with by clicking [here](https://discord.com/oauth2/authorize?client_id=1343952118842916926).
    - Select the server where you want to add the bot.
    - Click **Authorize**.
 

@@ -12,7 +12,7 @@
 
 ## 🚀 Setup
 
-1. Invite the bot to your Discord server using [this link](https://discord.com/oauth2/authorize?client_id=1343952118842916926&permissions=8&integration_type=0&scope=bot+applications.commands).
+1. Invite the bot to your Discord server using [this link](https://discord.com/oauth2/authorize?client_id=1343952118842916926).
 2. Use the `/watch` command to set up repository tracking:
    ```
    /watch <repo_name> <channel_id>
