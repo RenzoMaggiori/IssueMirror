@@ -9,21 +9,22 @@ export async function DeleteThread(payload: GitHubIssuePayload, client: Client) 
     const issueTitle = issue.title;
 
     const repos = await getReposByName(repoName);
+
     if (repos.length === 0) throw new Error(`No repository found for ${repoName}`);
+
     for (const repo of repos) {
         const channelId = repo.channel_id;
 
         if (!channelId)
             continue;
+
         const channel = await client.channels.fetch(channelId) as TextChannel;
-        if (!channel)
-            continue;
-        if (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildForum) {
+
+        if (channel && (channel.type === ChannelType.GuildText || channel.type === ChannelType.GuildForum)) {
             const thread = channel.threads.cache.find((t) => t.name === `Issue: ${issueTitle}`);
-            if (!thread)
-                continue;
-            const deletedThread = await thread.delete('Issue closed or deleted');
-            if (!deletedThread) throw new Error("Failed to delete thread.");
+
+            if (thread)
+                thread.delete('Issue closed or deleted');
         }
     }
 }

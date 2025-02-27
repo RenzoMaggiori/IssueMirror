@@ -3,6 +3,7 @@ import { ChannelType, Client, EmbedBuilder, ForumChannel, ThreadChannel } from "
 import { GitHubIssuePayload } from "#bot/lib/types";
 import { getRandomColor } from "#bot/lib/random_color";
 import { getReposByName } from "#bot/lib/db";
+import { createEmbed } from "#bot/lib/create_embed";
 
 async function PinEmbedMessage(thread: ThreadChannel) {
     const messages = await thread.messages.fetch({ limit: 1 });
@@ -11,19 +12,19 @@ async function PinEmbedMessage(thread: ThreadChannel) {
     if (firstMessage) await firstMessage.pin();
 }
 
-function createEmbed(issue: GitHubIssuePayload["issue"]): EmbedBuilder {
-    const embed = new EmbedBuilder()
-        .setColor(getRandomColor())
-        .setTitle(issue.title)
-        .setURL(issue.html_url)
-        .setAuthor({ name: issue.user.login, iconURL: issue.user.avatar_url })
-        .setDescription(issue.body ? issue.body.substring(0, 4000) : "No description provided.")
-        .addFields(
+function createThreadEmbed(issue: GitHubIssuePayload["issue"]): EmbedBuilder {
+    const embed = createEmbed({
+        color: getRandomColor(),
+        timestamp: new Date(issue.created_at),
+        title: issue.title,
+        description: issue.body ? issue.body.substring(0, 4000) : "No description provided.",
+        author: { name: issue.user.login, iconURL: issue.user.avatar_url },
+        footer: { text: `Issue #${issue.number}` },
+        fields: [
             { name: 'Status', value: issue.state, inline: true },
             { name: 'Comments', value: issue.comments.toString(), inline: true },
-        )
-        .setTimestamp(new Date(issue.created_at))
-        .setFooter({ text: `Issue #${issue.number}` });
+        ]
+    });
 
     if (issue.assignees && issue.assignees.length > 0)
         embed.addFields({ name: 'Assignees', value: issue.assignees.map(a => a.login).join(', ') });
@@ -52,7 +53,7 @@ export async function CreateThread(
 
         if (!forumChannel) throw new Error("Channel not found.");
 
-        const embed = createEmbed(payload.issue);
+        const embed = createThreadEmbed(payload.issue);
         const thread = await forumChannel.threads.create({
             name: `Issue: ${payload.issue.title}`,
             message: {

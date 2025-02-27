@@ -64,4 +64,5 @@ export type EmbedType = {
     author?: EmbedAuthorOptions;
     img?: string;
     fields?: APIEmbedField[];
+    url?: string;
 };

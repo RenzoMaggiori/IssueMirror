@@ -14,6 +14,7 @@ export function createEmbed(embedInfo: EmbedType): EmbedBuilder {
   if (embedInfo.author) embed.setAuthor(embedInfo.author);
   if (embedInfo.img) embed.setImage(embedInfo.img);
   if (embedInfo.fields) embed.addFields(...embedInfo.fields);
+  if (embedInfo.url) embed.setURL(embedInfo.url)
 
   return embed;
 }
